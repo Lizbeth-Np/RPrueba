@@ -1,9 +1,12 @@
-name: "Compilación del documento .tex en la carpeta de informes"
+name: "Compilación del documento .tex de la carpeta Informes"
 
-on:
-  push:
+on: 
+  push: 
     branches:
-      - main
+      - main  # Detecta cambios en la rama main
+
+permissions:
+  contents: write  # Esto da al GITHUB_TOKEN permiso para crear releases, tags, etc
 
 jobs:
   release_cv:
@@ -16,19 +19,19 @@ jobs:
 
       - name: "Compilación del Informe"
         uses: xu-cheng/latex-action@master
-        with:
+        with: 
           root_file: Informes/Informe01.tex
 
       - name: "Revisión del PDF"
         run: |
-          file Informes/Informe01.pdf | grep -q 'PDF'
+          file Informe01.pdf | grep -q 'PDF'
 
       - name: "Carga del PDF como release"
         uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.TOKEN_ACTION }}
+        with: 
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: "latest"
           prerelease: true
-          title: "Carga del informe"
+          title: "Carga"
           files: |
             Informe01.pdf
