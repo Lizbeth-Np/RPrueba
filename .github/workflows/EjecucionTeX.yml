@@ -20,13 +20,15 @@ jobs:
           root_file: Informes/Informe01.tex
 
       - name: "Revisión del PDF"
-        run: file Informes/Informe01.pdf | grep -q 'PDF'
+        run: |
+          file Informes/Informe01.pdf | grep -q 'PDF'
 
-      - name: "Carga del PDF a una URL fija"
+      - name: "Carga del PDF como release"
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repo_token: ${{ secrets.TOKEN_ACTION }}
           automatic_release_tag: "latest"
           prerelease: true
           title: "Carga del informe"
-          files: Informes/Informe01.pdf
+          files: |
+            Informe01.pdf
